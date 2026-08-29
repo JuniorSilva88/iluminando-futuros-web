@@ -3,21 +3,28 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
+import { GaleriaEdicoes } from "@/components/GaleriaEdicoes";
+
 import sobreCriancas from "@/assets/sobre-criancas.jpg";
 import projetoEntrega from "@/assets/projeto-entrega.jpg";
 import projetoColeta from "@/assets/projeto-coleta.jpg";
+import logoCg from "@/assets/oficial/cgRefrigeracao.jpeg";
+import logoArtec from "@/assets/oficial/arTecRefrigeracao.jpeg";
+import logoNei from "@/assets/oficial/neiDoVolei.jpeg";
+import logoC2 from "@/assets/oficial/c2ar.jpeg";
+import logoCasa from "@/assets/oficial/casaDoFrentista.jpg";
 import projetoVoluntarios from "@/assets/projeto-voluntarios.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Iluminando Futuros — 5ª Ação Entre Amigos" },
+      { title: "Iluminando Futuros — Ação Entre Amigos" },
       {
         name: "description",
         content:
-          "ONG Iluminando Futuros: doe brinquedos ou contribua por Pix na 5ª Ação Entre Amigos e leve alegria a crianças no fim de ano.",
+          "ONG Iluminando Futuros: doe brinquedos ou contribua por Pix na Ação Entre Amigos e leve alegria a crianças no fim de ano.",
       },
-      { property: "og:title", content: "Iluminando Futuros — 5ª Ação Entre Amigos" },
+      { property: "og:title", content: "Iluminando Futuros — Ação Entre Amigos" },
       {
         property: "og:description",
         content:
@@ -31,12 +38,14 @@ export const Route = createFileRoute("/")({
 });
 
 const PIX_KEY = "41995756812";
+const INSTAGRAM = "https://www.instagram.com/acao_entre_amigos_21/";
 const WHATSAPP = "https://wa.me/5541995756812?text=Quero%20fazer%20uma%20doa%C3%A7%C3%A3o";
 
 const navLinks = [
   { href: "#sobre", label: "Sobre" },
   { href: "#doar", label: "Como Doar" },
   { href: "#projetos", label: "Projetos" },
+  { href: "#edicoes", label: "Edições" },
   { href: "#transparencia", label: "Transparência" },
 ];
 
@@ -72,11 +81,11 @@ const projetos = [
 ];
 
 const parceiros = [
-  "CG Refrigeração",
-  "Artec Refrigeração",
-  "Nei do Vôlei",
-  "C2 Ar Condicionado",
-  "Casa do Frentista",
+  { nome: "CG Refrigeração", logo: logoCg },
+  { nome: "Artec Refrigeração", logo: logoArtec },
+  { nome: "Nei do Vôlei", logo: logoNei },
+  { nome: "C2 Ar Condicionado", logo: logoC2 },
+  { nome: "Casa do Frentista", logo: logoCasa },
 ];
 
 function Index() {
@@ -162,7 +171,7 @@ function Index() {
           <div className="relative z-10 mx-auto max-w-7xl px-5 pb-28 pt-16 sm:px-8 lg:pb-44 lg:pt-24">
             <div className="max-w-4xl">
               <p className="mb-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-sun">
-                5ª Ação Entre Amigos
+                Ação Entre Amigos
               </p>
               <h1 className="font-display text-[15vw] uppercase leading-[0.82] sm:text-[11vw] lg:text-[9.5rem]">
                 <span className="block text-white">Iluminando</span>
@@ -218,8 +227,8 @@ function Index() {
                 Ação <span className="inline-block -skew-x-6 text-accent-warm">Entre Amigos</span>
               </h2>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink/75">
-                Estamos na 5ª edição da Ação Entre Amigos. A campanha recolhe brinquedos e doações em
-                dinheiro para distribuir sorrisos no final do ano. Os presentes são organizados por
+                A Ação Entre Amigos recolhe brinquedos e doações em dinheiro para distribuir sorrisos
+                no final do ano. Os presentes são organizados por
                 faixa etária — 0 a 3, 4 a 7, 8 a 12 e 13 anos ou mais — e entregues com carinho.
               </p>
               <ul className="mt-8 flex flex-wrap gap-3">
@@ -337,6 +346,8 @@ function Index() {
           </div>
         </section>
 
+        <GaleriaEdicoes />
+
         {/* TRANSPARÊNCIA */}
         <section id="transparencia" className="bg-ink text-white">
           <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-20 sm:px-8 lg:grid-cols-12 lg:py-24">
@@ -376,12 +387,17 @@ function Index() {
               Patrocinadores &amp; parceiros
             </h2>
             <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-              {parceiros.map((nome) => (
+              {parceiros.map((p) => (
                 <li
-                  key={nome}
-                  className="grid h-24 -skew-x-6 place-items-center rounded-lg bg-white px-3 text-center font-display text-lg uppercase text-ink/80 outline-1 -outline-offset-1 outline-black/5"
+                  key={p.nome}
+                  className="grid h-28 place-items-center rounded-lg bg-white p-3 text-center outline-1 -outline-offset-1 outline-black/5"
                 >
-                  <span className="skew-x-6">{nome}</span>
+                  <img
+                    src={p.logo}
+                    alt={`Logo do parceiro ${p.nome}`}
+                    loading="lazy"
+                    className="max-h-20 w-auto max-w-full object-contain"
+                  />
                 </li>
               ))}
             </ul>
@@ -475,10 +491,22 @@ function Index() {
         </section>
       </main>
 
-      <footer className="bg-ink py-6 text-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 text-sm text-white/70 sm:px-8">
+      <footer className="bg-ink py-8 text-white">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-5 text-center text-sm text-white/70 sm:px-8 md:flex-row md:justify-between md:text-left">
           <span className="font-display tracking-wide text-white">ILUMINANDO FUTUROS</span>
-          <span>5ª Ação Entre Amigos · Doe com carinho</span>
+          <a
+            href={INSTAGRAM}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-bold text-white hover:text-accent-warm"
+          >
+            <span aria-hidden="true">◎</span>
+            <span>@acao_entre_amigos_21 no Instagram</span>
+          </a>
+          <div className="flex flex-col gap-1">
+            <span>© 2026 Ação Entre Amigos — Todos os direitos reservados</span>
+            <span>Desenvolvido por Junior Silva</span>
+          </div>
         </div>
       </footer>
 
