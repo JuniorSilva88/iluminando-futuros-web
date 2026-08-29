@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 
 import img1 from "@/assets/oficial/img1-1200.jpg";
 import img2 from "@/assets/oficial/img2-1200.jpg";
-import img3 from "@/assets/oficial/img3-1200.jpg";
 import img4 from "@/assets/oficial/img4-1200.jpg";
 import img5 from "@/assets/oficial/img5-1200.jpg";
 import img6 from "@/assets/oficial/img6-1024.jpg";
@@ -17,7 +16,6 @@ const edicoes = [
     fotos: [
       { src: img1, alt: "Registro da Ação Entre Amigos 2024: voluntários reunidos durante a arrecadação" },
       { src: img2, alt: "Registro da Ação Entre Amigos 2024: brinquedos organizados para a entrega" },
-      { src: img3, alt: "Registro da Ação Entre Amigos 2024: momento de confraternização com a comunidade" },
       { src: img4, alt: "Registro da Ação Entre Amigos 2024: entrega de presentes às crianças" },
       { src: img5, alt: "Registro da Ação Entre Amigos 2024: equipe preparando as doações" },
     ],
