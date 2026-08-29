@@ -12,7 +12,7 @@ import img9 from "@/assets/oficial/img9-1200.jpg";
 
 type Edicao = { id: string; rotulo: string; fotos: { src: string; alt: string }[] };
 
-const edicoes: Edicao[] = [
+const edicoes = [
   {
     id: "2024",
     rotulo: "Ação 2024",
@@ -34,13 +34,13 @@ const edicoes: Edicao[] = [
       { src: img9, alt: "Registro da Ação Entre Amigos 2025: amigos e apoiadores no dia da entrega" },
     ],
   },
-];
+] as const satisfies readonly Edicao[];
 
 export function GaleriaEdicoes() {
-  const [ativa, setAtiva] = useState(edicoes[0].id);
+  const [ativa, setAtiva] = useState<string>(edicoes[0].id);
   const trilhoRef = useRef<HTMLUListElement>(null);
 
-  const edicao = edicoes.find((e) => e.id === ativa) ?? edicoes[0];
+  const edicao: Edicao = edicoes.find((e) => e.id === ativa) ?? edicoes[0];
 
   const mover = (dir: 1 | -1) => {
     const el = trilhoRef.current;
