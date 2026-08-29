@@ -10,8 +10,6 @@ import img7 from "@/assets/oficial/img7-1200.jpg";
 import img8 from "@/assets/oficial/img8-1024.jpg";
 import img9 from "@/assets/oficial/img9-1200.jpg";
 
-type Edicao = { id: string; rotulo: string; fotos: { src: string; alt: string }[] };
-
 const edicoes = [
   {
     id: "2024",
@@ -34,7 +32,9 @@ const edicoes = [
       { src: img9, alt: "Registro da Ação Entre Amigos 2025: amigos e apoiadores no dia da entrega" },
     ],
   },
-] as const satisfies readonly Edicao[];
+] as const;
+
+type Edicao = (typeof edicoes)[number];
 
 export function GaleriaEdicoes() {
   const [ativa, setAtiva] = useState<string>(edicoes[0].id);
