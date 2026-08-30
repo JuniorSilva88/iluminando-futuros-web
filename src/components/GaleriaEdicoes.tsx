@@ -231,11 +231,17 @@ export function GaleriaEdicoes() {
                 </svg>
               </button>
 
-              <img
-                src={edicao.fotos[indiceModal].src}
-                alt={edicao.fotos[indiceModal].alt}
-                className="max-h-[80vh] w-auto max-w-full rounded-lg object-contain shadow-2xl"
-              />
+              {(() => {
+                const foto = edicao.fotos[indiceModal];
+                if (!foto) return null;
+                return (
+                  <img
+                    src={foto.src}
+                    alt={foto.alt}
+                    className="max-h-[80vh] w-auto max-w-full rounded-lg object-contain shadow-2xl"
+                  />
+                );
+              })()}
 
               <button
                 type="button"
