@@ -1,38 +1,79 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import img1 from "@/assets/oficial/img1-1200.jpg";
+import img1_480 from "@/assets/oficial/img1-480.jpg";
+import img1_768 from "@/assets/oficial/img1-768.jpg";
 import img2 from "@/assets/oficial/img2-1200.jpg";
+import img2_480 from "@/assets/oficial/img2-480.jpg";
+import img2_768 from "@/assets/oficial/img2-768.jpg";
 import img4 from "@/assets/oficial/img4-1200.jpg";
+import img4_480 from "@/assets/oficial/img4-480.jpg";
+import img4_768 from "@/assets/oficial/img4-768.jpg";
 import img5 from "@/assets/oficial/img5-1200.jpg";
+import img5_480 from "@/assets/oficial/img5-480.jpg";
+import img5_768 from "@/assets/oficial/img5-768.jpg";
 import img6 from "@/assets/oficial/img6-1024.jpg";
+import img6_480 from "@/assets/oficial/img6-480.jpg";
+import img6_768 from "@/assets/oficial/img6-768.jpg";
 import img7 from "@/assets/oficial/img7-1200.jpg";
+import img7_480 from "@/assets/oficial/img7-480.jpg";
+import img7_768 from "@/assets/oficial/img7-768.jpg";
 import img8 from "@/assets/oficial/img8-1024.jpg";
+import img8_480 from "@/assets/oficial/img8-480.jpg";
+import img8_768 from "@/assets/oficial/img8-768.jpg";
 import img9 from "@/assets/oficial/img9-1200.jpg";
+import img9_480 from "@/assets/oficial/img9-480.jpg";
+import img9_768 from "@/assets/oficial/img9-768.jpg";
+
+type Foto = {
+  src: string;
+  srcSet: string;
+  largura: number;
+  alt: string;
+};
+
+function criaFoto(
+  grande: string,
+  pequena: string,
+  media: string,
+  largura: number,
+  alt: string,
+): Foto {
+  return {
+    src: grande,
+    srcSet: `${pequena} 480w, ${media} 768w, ${grande} ${largura}w`,
+    largura,
+    alt,
+  };
+}
 
 const edicoes = [
   {
     id: "2024",
     rotulo: "Ação 2024",
     fotos: [
-      { src: img1, alt: "Registro da Ação Entre Amigos 2024: voluntários reunidos durante a arrecadação" },
-      { src: img2, alt: "Registro da Ação Entre Amigos 2024: brinquedos organizados para a entrega" },
-      { src: img4, alt: "Registro da Ação Entre Amigos 2024: entrega de presentes às crianças" },
-      { src: img5, alt: "Registro da Ação Entre Amigos 2024: equipe preparando as doações" },
+      criaFoto(img1, img1_480, img1_768, 1200, "Registro da Ação Entre Amigos 2024: voluntários reunidos durante a arrecadação"),
+      criaFoto(img2, img2_480, img2_768, 1200, "Registro da Ação Entre Amigos 2024: brinquedos organizados para a entrega"),
+      criaFoto(img4, img4_480, img4_768, 1200, "Registro da Ação Entre Amigos 2024: entrega de presentes às crianças"),
+      criaFoto(img5, img5_480, img5_768, 1200, "Registro da Ação Entre Amigos 2024: equipe preparando as doações"),
     ],
   },
   {
     id: "2025",
     rotulo: "Ação 2025",
     fotos: [
-      { src: img6, alt: "Registro da Ação Entre Amigos 2025: voluntários durante a ação" },
-      { src: img7, alt: "Registro da Ação Entre Amigos 2025: crianças recebendo brinquedos" },
-      { src: img8, alt: "Registro da Ação Entre Amigos 2025: doações reunidas no ponto de coleta" },
-      { src: img9, alt: "Registro da Ação Entre Amigos 2025: amigos e apoiadores no dia da entrega" },
+      criaFoto(img6, img6_480, img6_768, 1024, "Registro da Ação Entre Amigos 2025: voluntários durante a ação"),
+      criaFoto(img7, img7_480, img7_768, 1200, "Registro da Ação Entre Amigos 2025: crianças recebendo brinquedos"),
+      criaFoto(img8, img8_480, img8_768, 1024, "Registro da Ação Entre Amigos 2025: doações reunidas no ponto de coleta"),
+      criaFoto(img9, img9_480, img9_768, 1200, "Registro da Ação Entre Amigos 2025: amigos e apoiadores no dia da entrega"),
     ],
   },
 ] as const;
 
 type Edicao = (typeof edicoes)[number];
+
+/** Larguras ocupadas por cada card do carrossel conforme o viewport. */
+const SIZES_CARROSSEL = "(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 85vw";
 
 export function GaleriaEdicoes() {
   const [ativa, setAtiva] = useState<string>(edicoes[0].id);
@@ -63,6 +104,16 @@ export function GaleriaEdicoes() {
       return proximo;
     });
   }, [edicao.fotos.length]);
+
+  // Pré-carrega a foto seguinte do lightbox para navegação instantânea.
+  useEffect(() => {
+    if (!modalAberta) return;
+    const proxima = edicao.fotos[(indiceModal + 1) % edicao.fotos.length];
+    if (proxima) {
+      const img = new Image();
+      img.src = proxima.src;
+    }
+  }, [modalAberta, indiceModal, edicao]);
 
   useEffect(() => {
     if (!modalAberta) return;
@@ -152,8 +203,14 @@ export function GaleriaEdicoes() {
                 >
                   <img
                     src={f.src}
+                    srcSet={f.srcSet}
+                    sizes={SIZES_CARROSSEL}
+                    width={f.largura}
+                    height={Math.round((f.largura * 3) / 4)}
                     alt={f.alt}
                     loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
                     className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
                   />
                   <span className="absolute inset-0 flex items-center justify-center bg-ink/0 transition duration-300 group-hover:bg-ink/20">
@@ -236,8 +293,12 @@ export function GaleriaEdicoes() {
                 if (!foto) return null;
                 return (
                   <img
+                    key={foto.src}
                     src={foto.src}
+                    srcSet={foto.srcSet}
+                    sizes="(min-width: 1024px) 80vw, 100vw"
                     alt={foto.alt}
+                    decoding="async"
                     className="max-h-[80vh] w-auto max-w-full rounded-lg object-contain shadow-2xl"
                   />
                 );
