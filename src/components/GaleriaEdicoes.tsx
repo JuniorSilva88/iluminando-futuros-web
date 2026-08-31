@@ -279,16 +279,24 @@ export function GaleriaEdicoes() {
 
       {modalAberta && (
         <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Foto ${indiceModal + 1} de ${edicao.fotos.length}`}
           className="fixed inset-0 z-50 flex items-center justify-center bg-ink/95 p-4"
           onClick={fecharModal}
         >
           <div
+            ref={dialogoRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="lightbox-titulo"
+            aria-describedby="lightbox-instrucoes"
             className="relative w-full max-w-5xl"
             onClick={(e) => e.stopPropagation()}
           >
+            <h2 id="lightbox-titulo" className="sr-only">
+              {`${edicao.rotulo} — foto ${indiceModal + 1} de ${edicao.fotos.length}`}
+            </h2>
+            <p id="lightbox-instrucoes" className="sr-only">
+              Use as setas esquerda e direita para navegar entre as fotos e a tecla Escape para fechar.
+            </p>
             <button
               ref={botaoFecharRef}
               type="button"
