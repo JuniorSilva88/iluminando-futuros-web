@@ -349,8 +349,18 @@ export function GaleriaEdicoes() {
               </button>
             </div>
 
-            <p className="mt-4 text-center text-sm text-white/80">
-              {indiceModal + 1} / {edicao.fotos.length}
+            <p
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              className="mt-4 text-center text-sm text-white/80"
+            >
+              <span aria-hidden="true">
+                {indiceModal + 1} / {edicao.fotos.length}
+              </span>
+              <span className="sr-only">
+                {`Foto ${indiceModal + 1} de ${edicao.fotos.length}: ${edicao.fotos[indiceModal]?.alt ?? ""}`}
+              </span>
             </p>
           </div>
         </div>
