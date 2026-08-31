@@ -81,6 +81,7 @@ export function GaleriaEdicoes() {
   const [indiceModal, setIndiceModal] = useState(0);
   const trilhoRef = useRef<HTMLUListElement>(null);
   const botaoFecharRef = useRef<HTMLButtonElement>(null);
+  const dialogoRef = useRef<HTMLDivElement>(null);
   const ultimoFocoRef = useRef<HTMLElement | null>(null);
 
   const edicao: Edicao = edicoes.find((e) => e.id === ativa) ?? edicoes[0];
@@ -120,9 +121,33 @@ export function GaleriaEdicoes() {
     botaoFecharRef.current?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") fecharModal();
+      if (e.key === "Escape") {
+        fecharModal();
+        return;
+      }
       if (e.key === "ArrowRight") mudarFoto(1);
       if (e.key === "ArrowLeft") mudarFoto(-1);
+      if (e.key === "Tab") {
+        // Focus trap: mantém o foco dentro da janela ampliada.
+        const container = dialogoRef.current;
+        if (!container) return;
+        const focaveis = Array.from(
+          container.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+          ),
+        ).filter((el) => !el.hasAttribute("disabled"));
+        if (focaveis.length === 0) return;
+        const primeiro = focaveis[0]!;
+        const ultimo = focaveis[focaveis.length - 1]!;
+        const ativo = document.activeElement as HTMLElement | null;
+        if (e.shiftKey && (ativo === primeiro || !container.contains(ativo))) {
+          e.preventDefault();
+          ultimo.focus();
+        } else if (!e.shiftKey && (ativo === ultimo || !container.contains(ativo))) {
+          e.preventDefault();
+          primeiro.focus();
+        }
+      }
     };
 
     document.addEventListener("keydown", onKeyDown);
