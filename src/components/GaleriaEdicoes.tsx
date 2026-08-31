@@ -81,6 +81,7 @@ export function GaleriaEdicoes() {
   const [indiceModal, setIndiceModal] = useState(0);
   const trilhoRef = useRef<HTMLUListElement>(null);
   const botaoFecharRef = useRef<HTMLButtonElement>(null);
+  const dialogoRef = useRef<HTMLDivElement>(null);
   const ultimoFocoRef = useRef<HTMLElement | null>(null);
 
   const edicao: Edicao = edicoes.find((e) => e.id === ativa) ?? edicoes[0];
@@ -120,9 +121,33 @@ export function GaleriaEdicoes() {
     botaoFecharRef.current?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") fecharModal();
+      if (e.key === "Escape") {
+        fecharModal();
+        return;
+      }
       if (e.key === "ArrowRight") mudarFoto(1);
       if (e.key === "ArrowLeft") mudarFoto(-1);
+      if (e.key === "Tab") {
+        // Focus trap: mantém o foco dentro da janela ampliada.
+        const container = dialogoRef.current;
+        if (!container) return;
+        const focaveis = Array.from(
+          container.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+          ),
+        ).filter((el) => !el.hasAttribute("disabled"));
+        if (focaveis.length === 0) return;
+        const primeiro = focaveis[0]!;
+        const ultimo = focaveis[focaveis.length - 1]!;
+        const ativo = document.activeElement as HTMLElement | null;
+        if (e.shiftKey && (ativo === primeiro || !container.contains(ativo))) {
+          e.preventDefault();
+          ultimo.focus();
+        } else if (!e.shiftKey && (ativo === ultimo || !container.contains(ativo))) {
+          e.preventDefault();
+          primeiro.focus();
+        }
+      }
     };
 
     document.addEventListener("keydown", onKeyDown);
@@ -254,16 +279,24 @@ export function GaleriaEdicoes() {
 
       {modalAberta && (
         <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Foto ${indiceModal + 1} de ${edicao.fotos.length}`}
           className="fixed inset-0 z-50 flex items-center justify-center bg-ink/95 p-4"
           onClick={fecharModal}
         >
           <div
+            ref={dialogoRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="lightbox-titulo"
+            aria-describedby="lightbox-instrucoes"
             className="relative w-full max-w-5xl"
             onClick={(e) => e.stopPropagation()}
           >
+            <h2 id="lightbox-titulo" className="sr-only">
+              {`${edicao.rotulo} — foto ${indiceModal + 1} de ${edicao.fotos.length}`}
+            </h2>
+            <p id="lightbox-instrucoes" className="sr-only">
+              Use as setas esquerda e direita para navegar entre as fotos e a tecla Escape para fechar.
+            </p>
             <button
               ref={botaoFecharRef}
               type="button"
@@ -316,8 +349,18 @@ export function GaleriaEdicoes() {
               </button>
             </div>
 
-            <p className="mt-4 text-center text-sm text-white/80">
-              {indiceModal + 1} / {edicao.fotos.length}
+            <p
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              className="mt-4 text-center text-sm text-white/80"
+            >
+              <span aria-hidden="true">
+                {indiceModal + 1} / {edicao.fotos.length}
+              </span>
+              <span className="sr-only">
+                {`Foto ${indiceModal + 1} de ${edicao.fotos.length}: ${edicao.fotos[indiceModal]?.alt ?? ""}`}
+              </span>
             </p>
           </div>
         </div>
