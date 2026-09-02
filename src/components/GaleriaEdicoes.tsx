@@ -1,4 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { supabase } from "@/integrations/supabase/client";
+import { fotosGaleriaQuery } from "@/lib/galeria";
 
 import img1 from "@/assets/oficial/img1-1200.jpg";
 import img1_480 from "@/assets/oficial/img1-480.jpg";
