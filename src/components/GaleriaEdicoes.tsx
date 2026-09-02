@@ -31,7 +31,7 @@ import img9_768 from "@/assets/oficial/img9-768.jpg";
 
 type Foto = {
   src: string;
-  srcSet: string;
+  srcSet?: string;
   largura: number;
   alt: string;
 };
