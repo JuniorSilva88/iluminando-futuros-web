@@ -74,7 +74,7 @@ const edicoes = [
   },
 ] as const;
 
-type Edicao = (typeof edicoes)[number];
+type Edicao = { id: string; rotulo: string; fotos: Foto[] };
 
 /** Larguras ocupadas por cada card do carrossel conforme o viewport. */
 const SIZES_CARROSSEL = "(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 85vw";
@@ -87,8 +87,40 @@ export function GaleriaEdicoes() {
   const botaoFecharRef = useRef<HTMLButtonElement>(null);
   const dialogoRef = useRef<HTMLDivElement>(null);
   const ultimoFocoRef = useRef<HTMLElement | null>(null);
+  const queryClient = useQueryClient();
 
-  const edicao: Edicao = edicoes.find((e) => e.id === ativa) ?? edicoes[0];
+  // Fotos publicadas pelo painel administrativo.
+  const { data: enviadas } = useQuery(fotosGaleriaQuery);
+
+  // Atualiza a galeria em tempo real, sem recarregar a página.
+  useEffect(() => {
+    const canal = supabase
+      .channel("galeria-publica")
+      .on("postgres_changes", { event: "*", schema: "public", table: "galeria_fotos" }, () => {
+        queryClient.invalidateQueries({ queryKey: fotosGaleriaQuery.queryKey });
+      })
+      .subscribe();
+    return () => {
+      supabase.removeChannel(canal);
+    };
+  }, [queryClient]);
+
+  const listaEdicoes: Edicao[] = useMemo(
+    () =>
+      edicoes.map((e) => ({
+        id: e.id,
+        rotulo: e.rotulo,
+        fotos: [
+          ...(enviadas ?? [])
+            .filter((f) => f.edicao === e.id)
+            .map((f): Foto => ({ src: f.url, largura: 1200, alt: f.alt })),
+          ...e.fotos,
+        ],
+      })),
+    [enviadas],
+  );
+
+  const edicao: Edicao = listaEdicoes.find((e) => e.id === ativa) ?? listaEdicoes[0]!;
 
   const abrirModal = useCallback((indice: number) => {
     ultimoFocoRef.current = document.activeElement as HTMLElement;
