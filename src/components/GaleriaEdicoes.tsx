@@ -201,7 +201,7 @@ export function GaleriaEdicoes() {
   };
 
   return (
-    <section id="edicoes" className="bg-cream text-ink">
+    <section id="edicoes" className="overflow-x-clip bg-cream text-ink">
       <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -249,12 +249,24 @@ export function GaleriaEdicoes() {
         >
           <ul
             ref={trilhoRef}
-            className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [scrollbar-width:thin]"
+            tabIndex={0}
+            aria-label={`Fotos da ${edicao.rotulo}. Use as setas do teclado para percorrer.`}
+            onKeyDown={(e) => {
+              if (e.key === "ArrowRight") {
+                e.preventDefault();
+                mover(1);
+              }
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                mover(-1);
+              }
+            }}
+            className="flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth pb-4 [-webkit-overflow-scrolling:touch] [scrollbar-width:thin] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-warm"
           >
             {edicao.fotos.map((f, i) => (
               <li
                 key={f.src}
-                className="w-[85%] shrink-0 snap-start sm:w-[48%] lg:w-[32%]"
+                className="w-[85%] max-w-full shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
               >
                 <button
                   type="button"
@@ -350,7 +362,7 @@ export function GaleriaEdicoes() {
                 type="button"
                 onClick={() => mudarFoto(-1)}
                 aria-label="Foto anterior"
-                className="absolute left-0 z-10 grid size-11 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-accent-warm sm:-left-14"
+                className="absolute left-1 z-10 grid size-11 place-items-center rounded-full bg-ink/60 text-white transition hover:bg-ink/80 focus-visible:outline-2 focus-visible:outline-accent-warm lg:-left-14 lg:bg-white/10 lg:hover:bg-white/20"
               >
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="m15 18-6-6 6-6" />
@@ -377,7 +389,7 @@ export function GaleriaEdicoes() {
                 type="button"
                 onClick={() => mudarFoto(1)}
                 aria-label="Próxima foto"
-                className="absolute right-0 z-10 grid size-11 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-accent-warm sm:-right-14"
+                className="absolute right-1 z-10 grid size-11 place-items-center rounded-full bg-ink/60 text-white transition hover:bg-ink/80 focus-visible:outline-2 focus-visible:outline-accent-warm lg:-right-14 lg:bg-white/10 lg:hover:bg-white/20"
               >
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="m9 18 6-6-6-6" />
