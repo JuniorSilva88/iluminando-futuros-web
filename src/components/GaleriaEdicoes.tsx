@@ -249,12 +249,24 @@ export function GaleriaEdicoes() {
         >
           <ul
             ref={trilhoRef}
-            className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [scrollbar-width:thin]"
+            tabIndex={0}
+            aria-label={`Fotos da ${edicao.rotulo}. Use as setas do teclado para percorrer.`}
+            onKeyDown={(e) => {
+              if (e.key === "ArrowRight") {
+                e.preventDefault();
+                mover(1);
+              }
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                mover(-1);
+              }
+            }}
+            className="flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth pb-4 [-webkit-overflow-scrolling:touch] [scrollbar-width:thin] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-warm"
           >
             {edicao.fotos.map((f, i) => (
               <li
                 key={f.src}
-                className="w-[85%] shrink-0 snap-start sm:w-[48%] lg:w-[32%]"
+                className="w-[85%] max-w-full shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
               >
                 <button
                   type="button"
