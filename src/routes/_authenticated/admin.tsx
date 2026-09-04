@@ -36,10 +36,8 @@ function PaginaAdmin() {
     queryFn: async () => {
       const { data: sess } = await supabase.auth.getUser();
       if (!sess.user) return false;
-      const { data } = await supabase.rpc("has_role", {
-        _user_id: sess.user.id,
-        _role: "admin",
-      });
+      // Confirma a permissão; a primeira conta do projeto se torna responsável.
+      const { data } = await supabase.rpc("reivindicar_admin");
       return Boolean(data);
     },
   });
