@@ -92,7 +92,16 @@ function PaginaAdmin() {
     },
     onError: (e) => {
       setMensagem(null);
-      setErro(e instanceof Error ? e.message : "Falha ao enviar as fotos.");
+      const bruto = e instanceof Error ? e.message : "";
+      // Traduz as mensagens técnicas mais comuns do servidor.
+      const amigavel = /maximum allowed size/i.test(bruto)
+        ? "A foto é grande demais (limite de 10 MB). Reduza o tamanho e tente de novo."
+        : /row-level security|permission/i.test(bruto)
+          ? "Sua conta não tem permissão para publicar fotos."
+          : /network|fetch/i.test(bruto)
+            ? "Sem conexão com a internet. Verifique a rede e tente de novo."
+            : bruto || "Falha ao enviar as fotos.";
+      setErro(amigavel);
     },
   });
 
