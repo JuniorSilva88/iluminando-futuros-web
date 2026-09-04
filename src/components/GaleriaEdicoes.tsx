@@ -201,7 +201,7 @@ export function GaleriaEdicoes() {
   };
 
   return (
-    <section id="edicoes" className="bg-cream text-ink">
+    <section id="edicoes" className="overflow-x-clip bg-cream text-ink">
       <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -362,7 +362,7 @@ export function GaleriaEdicoes() {
                 type="button"
                 onClick={() => mudarFoto(-1)}
                 aria-label="Foto anterior"
-                className="absolute left-0 z-10 grid size-11 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-accent-warm sm:-left-14"
+                className="absolute left-1 z-10 grid size-11 place-items-center rounded-full bg-ink/60 text-white transition hover:bg-ink/80 focus-visible:outline-2 focus-visible:outline-accent-warm lg:-left-14 lg:bg-white/10 lg:hover:bg-white/20"
               >
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="m15 18-6-6 6-6" />
@@ -389,7 +389,7 @@ export function GaleriaEdicoes() {
                 type="button"
                 onClick={() => mudarFoto(1)}
                 aria-label="Próxima foto"
-                className="absolute right-0 z-10 grid size-11 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-accent-warm sm:-right-14"
+                className="absolute right-1 z-10 grid size-11 place-items-center rounded-full bg-ink/60 text-white transition hover:bg-ink/80 focus-visible:outline-2 focus-visible:outline-accent-warm lg:-right-14 lg:bg-white/10 lg:hover:bg-white/20"
               >
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="m9 18 6-6-6-6" />
