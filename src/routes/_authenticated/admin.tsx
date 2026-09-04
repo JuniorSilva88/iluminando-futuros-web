@@ -62,6 +62,13 @@ function PaginaAdmin() {
       const { data: sess } = await supabase.auth.getUser();
       if (!sess.user) throw new Error("Sessão expirada.");
       for (const arquivo of arquivos) {
+        // Valida antes de enviar para dar um aviso claro em vez de erro do servidor.
+        if (arquivo.size > 10 * 1024 * 1024) {
+          throw new Error(`A foto "${arquivo.name}" tem mais de 10 MB. Reduza o tamanho e tente de novo.`);
+        }
+        if (!arquivo.type.startsWith("image/")) {
+          throw new Error(`O arquivo "${arquivo.name}" não é uma imagem.`);
+        }
         const ext = arquivo.name.split(".").pop()?.toLowerCase() ?? "jpg";
         const caminho = `${edicao}/${crypto.randomUUID()}.${ext}`;
         const { error: erroUpload } = await supabase.storage
