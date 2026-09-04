@@ -253,11 +253,12 @@ function PaginaAdmin() {
                   <span className="text-xs font-bold uppercase text-ink/60">Ação {f.edicao}</span>
                   <button
                     type="button"
+                    disabled={remover.isPending}
                     onClick={() => remover.mutate({ id: f.id, caminho: f.caminho })}
-                    className="text-xs font-bold uppercase text-accent-warm underline"
+                    className="min-h-11 text-xs font-bold uppercase text-accent-warm underline disabled:opacity-50"
                     aria-label={`Remover foto: ${f.alt}`}
                   >
-                    Remover
+                    {remover.isPending ? "Removendo..." : "Remover"}
                   </button>
                 </div>
               </li>
