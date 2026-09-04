@@ -95,7 +95,24 @@ function PaginaAdmin() {
       if (error) throw error;
       await supabase.storage.from("galeria").remove([caminho]);
     },
-    onSuccess: () => {
+    // Atualização otimista: a foto some da lista na hora, sem esperar o servidor.
+    onMutate: async ({ id }) => {
+      setErro(null);
+      await queryClient.cancelQueries({ queryKey: fotosGaleriaQuery.queryKey });
+      const anterior = queryClient.getQueryData<FotoGaleria[]>(fotosGaleriaQuery.queryKey);
+      queryClient.setQueryData<FotoGaleria[]>(
+        fotosGaleriaQuery.queryKey,
+        (atual) => (atual ?? []).filter((f) => f.id !== id),
+      );
+      return { anterior };
+    },
+    onError: (e, _vars, ctx) => {
+      // Desfaz a remoção otimista se o servidor recusar.
+      if (ctx?.anterior) queryClient.setQueryData(fotosGaleriaQuery.queryKey, ctx.anterior);
+      setErro(e instanceof Error ? e.message : "Falha ao remover a foto.");
+    },
+    // Revalida sempre na fonte de dados, tanto no sucesso quanto no erro.
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: fotosGaleriaQuery.queryKey });
     },
   });
