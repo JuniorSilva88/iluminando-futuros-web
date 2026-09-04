@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { fotosGaleriaQuery } from "@/lib/galeria";
+import { fotosGaleriaQuery, type FotoGaleria } from "@/lib/galeria";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
