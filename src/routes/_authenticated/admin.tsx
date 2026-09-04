@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { fotosGaleriaQuery } from "@/lib/galeria";
+import { fotosGaleriaQuery, type FotoGaleria } from "@/lib/galeria";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -62,6 +62,13 @@ function PaginaAdmin() {
       const { data: sess } = await supabase.auth.getUser();
       if (!sess.user) throw new Error("Sessão expirada.");
       for (const arquivo of arquivos) {
+        // Valida antes de enviar para dar um aviso claro em vez de erro do servidor.
+        if (arquivo.size > 10 * 1024 * 1024) {
+          throw new Error(`A foto "${arquivo.name}" tem mais de 10 MB. Reduza o tamanho e tente de novo.`);
+        }
+        if (!arquivo.type.startsWith("image/")) {
+          throw new Error(`O arquivo "${arquivo.name}" não é uma imagem.`);
+        }
         const ext = arquivo.name.split(".").pop()?.toLowerCase() ?? "jpg";
         const caminho = `${edicao}/${crypto.randomUUID()}.${ext}`;
         const { error: erroUpload } = await supabase.storage
@@ -85,7 +92,16 @@ function PaginaAdmin() {
     },
     onError: (e) => {
       setMensagem(null);
-      setErro(e instanceof Error ? e.message : "Falha ao enviar as fotos.");
+      const bruto = e instanceof Error ? e.message : "";
+      // Traduz as mensagens técnicas mais comuns do servidor.
+      const amigavel = /maximum allowed size/i.test(bruto)
+        ? "A foto é grande demais (limite de 10 MB). Reduza o tamanho e tente de novo."
+        : /row-level security|permission/i.test(bruto)
+          ? "Sua conta não tem permissão para publicar fotos."
+          : /network|fetch/i.test(bruto)
+            ? "Sem conexão com a internet. Verifique a rede e tente de novo."
+            : bruto || "Falha ao enviar as fotos.";
+      setErro(amigavel);
     },
   });
 
@@ -95,7 +111,24 @@ function PaginaAdmin() {
       if (error) throw error;
       await supabase.storage.from("galeria").remove([caminho]);
     },
-    onSuccess: () => {
+    // Atualização otimista: a foto some da lista na hora, sem esperar o servidor.
+    onMutate: async ({ id }) => {
+      setErro(null);
+      await queryClient.cancelQueries({ queryKey: fotosGaleriaQuery.queryKey });
+      const anterior = queryClient.getQueryData<FotoGaleria[]>(fotosGaleriaQuery.queryKey);
+      queryClient.setQueryData<FotoGaleria[]>(
+        fotosGaleriaQuery.queryKey,
+        (atual) => (atual ?? []).filter((f) => f.id !== id),
+      );
+      return { anterior };
+    },
+    onError: (e, _vars, ctx) => {
+      // Desfaz a remoção otimista se o servidor recusar.
+      if (ctx?.anterior) queryClient.setQueryData(fotosGaleriaQuery.queryKey, ctx.anterior);
+      setErro(e instanceof Error ? e.message : "Falha ao remover a foto.");
+    },
+    // Revalida sempre na fonte de dados, tanto no sucesso quanto no erro.
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: fotosGaleriaQuery.queryKey });
     },
   });
@@ -236,11 +269,12 @@ function PaginaAdmin() {
                   <span className="text-xs font-bold uppercase text-ink/60">Ação {f.edicao}</span>
                   <button
                     type="button"
+                    disabled={remover.isPending}
                     onClick={() => remover.mutate({ id: f.id, caminho: f.caminho })}
-                    className="text-xs font-bold uppercase text-accent-warm underline"
+                    className="min-h-11 text-xs font-bold uppercase text-accent-warm underline disabled:opacity-50"
                     aria-label={`Remover foto: ${f.alt}`}
                   >
-                    Remover
+                    {remover.isPending ? "Removendo..." : "Remover"}
                   </button>
                 </div>
               </li>
