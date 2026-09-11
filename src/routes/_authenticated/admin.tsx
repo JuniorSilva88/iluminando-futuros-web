@@ -152,7 +152,7 @@ function PaginaAdmin() {
             Sua conta está autenticada, mas ainda não tem permissão de administrador da galeria.
             Peça para a organização liberar seu acesso.
           </p>
-          <button onClick={sair} className="mt-6 h-11 rounded-md bg-accent-warm px-6 text-sm font-extrabold uppercase text-white">
+          <button onClick={sair} className="mt-6 h-11 rounded-md bg-sun px-6 text-sm font-extrabold uppercase text-ink">
             Sair
           </button>
         </div>
@@ -249,7 +249,7 @@ function PaginaAdmin() {
           <button
             type="submit"
             disabled={enviar.isPending || arquivos.length === 0}
-            className="h-12 w-full rounded-md bg-accent-warm text-sm font-extrabold uppercase tracking-wide text-white disabled:opacity-60 sm:w-auto sm:px-8"
+            className="h-12 w-full rounded-md bg-sun text-sm font-extrabold uppercase tracking-wide text-ink disabled:opacity-60 sm:w-auto sm:px-8"
           >
             {enviar.isPending ? "Enviando..." : "Publicar na galeria"}
           </button>

@@ -231,7 +231,7 @@ export function GaleriaEdicoes() {
                 }}
                 className={`inline-flex h-11 -skew-x-12 items-center px-5 text-sm font-extrabold uppercase transition ${
                   ativa === e.id
-                    ? "bg-accent-warm text-white"
+                    ? "bg-celebration text-white"
                     : "border-2 border-ink/20 text-ink/70 hover:border-accent-warm hover:text-accent-warm"
                 }`}
               >
@@ -287,7 +287,7 @@ export function GaleriaEdicoes() {
                     className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
                   />
                   <span className="absolute inset-0 flex items-center justify-center bg-ink/0 transition duration-300 group-hover:bg-ink/20">
-                    <span className="grid size-12 place-items-center rounded-full bg-white/90 text-ink opacity-0 shadow-lg transition duration-300 group-hover:opacity-100">
+                    <span className="grid size-12 place-items-center rounded-full bg-sun text-ink opacity-0 shadow-lg transition duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <circle cx="11" cy="11" r="8" />
                         <path d="m21 21-4.3-4.3" />

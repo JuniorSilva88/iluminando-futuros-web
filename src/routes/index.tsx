@@ -117,7 +117,7 @@ function Index() {
       <Toaster />
       <a
         href="#conteudo"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-accent-warm focus:px-4 focus:py-2 focus:text-white"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-sun focus:px-4 focus:py-2 focus:text-ink"
       >
         Ir para o conteúdo
       </a>
@@ -126,7 +126,7 @@ function Index() {
       <header className="sticky top-0 z-50 bg-brand text-white">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
           <a href="#conteudo" className="flex items-center gap-3">
-            <span className="grid size-9 -skew-x-12 place-items-center bg-accent-warm font-display text-lg text-white">
+            <span className="grid size-9 -skew-x-12 place-items-center bg-sun font-display text-lg text-ink">
               IF
             </span>
             <span className="font-display text-lg leading-none tracking-wide">
@@ -135,7 +135,7 @@ function Index() {
           </a>
           <nav aria-label="Principal" className="hidden items-center gap-8 text-sm font-semibold text-white/80 lg:flex">
             {navLinks.map((l) => (
-              <a key={l.href} className="hover:text-accent-warm" href={l.href}>
+              <a key={l.href} className="hover:text-sun" href={l.href}>
                 {l.label}
               </a>
             ))}
@@ -149,7 +149,7 @@ function Index() {
             </a>
             <a
               href="#doar"
-              className="inline-flex h-10 -skew-x-12 items-center bg-accent-warm px-5 text-sm font-extrabold text-white"
+               className="inline-flex h-10 -skew-x-12 items-center bg-sun px-5 text-sm font-extrabold text-ink"
             >
               <span className="skew-x-12">Doe Agora</span>
             </a>
@@ -175,7 +175,7 @@ function Index() {
               </p>
               <h1 className="font-display text-[15vw] uppercase leading-[0.82] sm:text-[11vw] lg:text-[9.5rem]">
                 <span className="block text-white">Iluminando</span>
-                <span className="inline-block -skew-x-6 text-accent-warm">o Futuro</span>
+                <span className="inline-block -skew-x-6 text-sun">o Futuro</span>
               </h1>
               <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/85 sm:text-xl">
                 Doe brinquedos ou contribua pelo Pix e ajude a levar alegria a muitas crianças neste
@@ -184,7 +184,7 @@ function Index() {
               <div className="mt-9 flex flex-wrap gap-3">
                 <a
                   href="#doar"
-                  className="inline-flex h-14 -skew-x-12 items-center gap-2 bg-accent-warm px-7 text-base font-extrabold text-white"
+                  className="inline-flex h-14 -skew-x-12 items-center gap-2 bg-sun px-7 text-base font-extrabold text-ink"
                 >
                   <span className="skew-x-12">Doe um brinquedo</span>
                   <span aria-hidden="true" className="skew-x-12 font-display">
@@ -232,7 +232,7 @@ function Index() {
                 faixa etária — 0 a 3, 4 a 7, 8 a 12 e 13 anos ou mais — e entregues com carinho.
               </p>
               <ul className="mt-8 flex flex-wrap gap-3">
-                <li className="inline-flex h-10 -skew-x-12 items-center bg-ink px-4 text-sm font-bold text-cream">
+                <li className="inline-flex h-10 -skew-x-12 items-center bg-celebration px-4 text-sm font-bold text-white">
                   <span className="skew-x-12">Comunidade</span>
                 </li>
                 <li className="inline-flex h-10 -skew-x-12 items-center bg-accent-warm px-4 text-sm font-bold text-white">
@@ -258,8 +258,8 @@ function Index() {
               </h2>
             </div>
             <div className="mt-12 grid gap-6 md:grid-cols-2">
-              <div className="rounded-xl border-t-8 border-accent-warm bg-brand p-8">
-                <span className="font-display text-2xl text-accent-warm">01</span>
+              <div className="rounded-xl border-t-8 border-sky-joy bg-brand p-8">
+                <span className="font-display text-2xl text-sun">01</span>
                 <h3 className="mt-2 font-display text-3xl uppercase">Doação via Pix</h3>
                 <p className="mt-3 leading-relaxed text-white/80">
                   Sua contribuição torna possível a organização, o transporte e a entrega dos
@@ -272,7 +272,7 @@ function Index() {
                   <button
                     type="button"
                     onClick={copiarPix}
-                    className="mt-4 inline-flex h-11 -skew-x-12 items-center bg-accent-warm px-5 text-sm font-extrabold text-white"
+                    className="mt-4 inline-flex h-11 -skew-x-12 items-center bg-sun px-5 text-sm font-extrabold text-ink"
                   >
                     <span className="skew-x-12">Copiar chave Pix</span>
                   </button>
@@ -365,15 +365,15 @@ function Index() {
             </div>
             <ul className="space-y-4 lg:col-span-5">
               <li className="flex items-center gap-4 rounded-lg border-l-8 border-accent-warm bg-brand p-5">
-                <span aria-hidden="true" className="font-display text-2xl text-accent-warm">A</span>
+                <span aria-hidden="true" className="font-display text-2xl text-sun">A</span>
                 <p className="text-sm text-white/85">Coleta registrada e organizada por faixa etária</p>
               </li>
               <li className="flex items-center gap-4 rounded-lg border-l-8 border-sun bg-brand p-5">
                 <span aria-hidden="true" className="font-display text-2xl text-sun">B</span>
                 <p className="text-sm text-white/85">Entrega acompanhada por voluntários e amigos</p>
               </li>
-              <li className="flex items-center gap-4 rounded-lg border-l-8 border-accent-warm bg-brand p-5">
-                <span aria-hidden="true" className="font-display text-2xl text-accent-warm">C</span>
+              <li className="flex items-center gap-4 rounded-lg border-l-8 border-sky-joy bg-brand p-5">
+                <span aria-hidden="true" className="font-display text-2xl text-sun">C</span>
                 <p className="text-sm text-white/85">Registros publicados ao final da edição</p>
               </li>
             </ul>
@@ -422,7 +422,7 @@ function Index() {
                 href={WHATSAPP}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-8 inline-flex h-14 -skew-x-12 items-center gap-2 bg-accent-warm px-7 text-base font-extrabold text-white"
+                 className="mt-8 inline-flex h-14 -skew-x-12 items-center gap-2 bg-sun px-7 text-base font-extrabold text-ink"
               >
                 <span className="skew-x-12">Chamar no WhatsApp</span>
               </a>
@@ -482,7 +482,7 @@ function Index() {
               <button
                 type="submit"
                 disabled={enviando}
-                className="h-14 w-full -skew-x-12 bg-accent-warm text-base font-extrabold text-white disabled:opacity-70"
+                 className="h-14 w-full -skew-x-12 bg-sun text-base font-extrabold text-ink disabled:opacity-70"
               >
                 <span className="inline-block skew-x-12">Enviar mensagem</span>
               </button>
@@ -531,7 +531,7 @@ function Index() {
       <div className="fixed inset-x-0 bottom-0 z-50 flex gap-2 border-t border-white/10 bg-brand p-3 sm:hidden">
         <a
           href="#doar"
-          className="flex-1 -skew-x-12 bg-accent-warm py-3 text-center text-sm font-extrabold text-white"
+            className="flex-1 -skew-x-12 bg-sun py-3 text-center text-sm font-extrabold text-ink"
         >
           <span className="inline-block skew-x-12">Doar</span>
         </a>

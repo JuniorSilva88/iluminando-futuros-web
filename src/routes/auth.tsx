@@ -137,7 +137,7 @@ function PaginaAuth() {
           <button
             type="submit"
             disabled={carregando}
-            className="h-12 w-full rounded-md bg-accent-warm text-sm font-extrabold uppercase tracking-wide text-white disabled:opacity-60"
+            className="h-12 w-full rounded-md bg-sun text-sm font-extrabold uppercase tracking-wide text-ink disabled:opacity-60"
           >
             {carregando ? "Aguarde..." : modo === "entrar" ? "Entrar" : "Criar conta"}
           </button>
