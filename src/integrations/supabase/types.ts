@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      campanhas: {
+        Row: {
+          categoria: string
+          created_at: string
+          descricao: string
+          id: string
+          imagem: string
+          ordem: number
+          titulo: string
+        }
+        Insert: {
+          categoria?: string
+          created_at?: string
+          descricao?: string
+          id?: string
+          imagem?: string
+          ordem?: number
+          titulo: string
+        }
+        Update: {
+          categoria?: string
+          created_at?: string
+          descricao?: string
+          id?: string
+          imagem?: string
+          ordem?: number
+          titulo?: string
+        }
+        Relationships: []
+      }
       galeria_fotos: {
         Row: {
           alt: string
@@ -38,6 +68,33 @@ export type Database = {
           edicao?: string
           id?: string
           ordem?: number
+        }
+        Relationships: []
+      }
+      patrocinadores: {
+        Row: {
+          created_at: string
+          id: string
+          logo: string
+          nome: string
+          ordem: number
+          site: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          logo?: string
+          nome: string
+          ordem?: number
+          site?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          logo?: string
+          nome?: string
+          ordem?: number
+          site?: string
         }
         Relationships: []
       }

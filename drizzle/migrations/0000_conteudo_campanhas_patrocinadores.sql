@@ -1,0 +1,15 @@
+CREATE TABLE public.campanhas (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), titulo text NOT NULL, descricao text NOT NULL DEFAULT '', categoria text NOT NULL DEFAULT 'Ação', imagem text NOT NULL DEFAULT '', ordem integer NOT NULL DEFAULT 0, created_at timestamptz NOT NULL DEFAULT now());
+GRANT SELECT ON public.campanhas TO anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.campanhas TO authenticated;
+GRANT ALL ON public.campanhas TO service_role;
+ALTER TABLE public.campanhas ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "campanhas publicas" ON public.campanhas FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "admin gerencia campanhas" ON public.campanhas FOR ALL TO authenticated USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin'));
+CREATE TABLE public.patrocinadores (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), nome text NOT NULL, logo text NOT NULL DEFAULT '', site text NOT NULL DEFAULT '', ordem integer NOT NULL DEFAULT 0, created_at timestamptz NOT NULL DEFAULT now());
+GRANT SELECT ON public.patrocinadores TO anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.patrocinadores TO authenticated;
+GRANT ALL ON public.patrocinadores TO service_role;
+ALTER TABLE public.patrocinadores ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "patrocinadores publicos" ON public.patrocinadores FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "admin gerencia patrocinadores" ON public.patrocinadores FOR ALL TO authenticated USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin'));
+ALTER PUBLICATION supabase_realtime ADD TABLE public.campanhas, public.patrocinadores;
