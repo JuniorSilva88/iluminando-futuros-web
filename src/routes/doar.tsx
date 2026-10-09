@@ -74,7 +74,7 @@ function DoarPage() {
   const [outro, setOutro] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [erros, setErros] = useState<Record<string, string>>({});
+  const [erros, setErros] = useState<{ nome?: string; email?: string; valor?: string }>({});
   const [gerado, setGerado] = useState<{ valor: number; nome: string } | null>(null);
 
   const valor = valorSel === "outro" ? Number(outro.replace(",", ".")) || 0 : valorSel;
@@ -95,7 +95,7 @@ function DoarPage() {
     if (!r.success) {
       const map: Record<string, string> = {};
       r.error.issues.forEach((i) => (map[String(i.path[0])] = i.message));
-      setErros(map);
+      setErros(map as typeof erros);
       return;
     }
     setErros({});
