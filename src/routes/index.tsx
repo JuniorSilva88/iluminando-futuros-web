@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
@@ -37,7 +37,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const PIX_KEY = "41995756812";
 const INSTAGRAM = "https://www.instagram.com/acao_entre_amigos_21/";
 const WHATSAPP = "https://wa.me/5541995756812?text=Quero%20fazer%20uma%20doa%C3%A7%C3%A3o";
 
@@ -91,14 +90,6 @@ const parceiros = [
 function Index() {
   const [enviando, setEnviando] = useState(false);
 
-  const copiarPix = async () => {
-    try {
-      await navigator.clipboard.writeText(PIX_KEY);
-      toast.success("Chave Pix copiada!");
-    } catch {
-      toast.error("Não foi possível copiar. Anote: " + PIX_KEY);
-    }
-  };
 
   const enviar = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -147,12 +138,12 @@ function Index() {
             >
               <span className="skew-x-12">Voluntário</span>
             </a>
-            <a
-              href="#doar"
-               className="inline-flex h-10 -skew-x-12 items-center bg-sun px-5 text-sm font-extrabold text-ink"
+            <Link
+              to="/doar"
+              className="inline-flex h-10 -skew-x-12 items-center bg-sun px-5 text-sm font-extrabold text-ink"
             >
               <span className="skew-x-12">Doe Agora</span>
-            </a>
+            </Link>
           </div>
         </div>
       </header>
@@ -265,18 +256,12 @@ function Index() {
                   Sua contribuição torna possível a organização, o transporte e a entrega dos
                   brinquedos.
                 </p>
-                <div className="mt-5 rounded-lg bg-ink p-4">
-                  <p className="text-xs uppercase tracking-widest text-white/60">Chave Pix</p>
-                  <p className="font-display text-2xl tracking-wide text-sun">{PIX_KEY}</p>
-                  <p className="mt-1 text-sm text-white/70">Alécio Camargo</p>
-                  <button
-                    type="button"
-                    onClick={copiarPix}
-                    className="mt-4 inline-flex h-11 -skew-x-12 items-center bg-sun px-5 text-sm font-extrabold text-ink"
-                  >
-                    <span className="skew-x-12">Copiar chave Pix</span>
-                  </button>
-                </div>
+                <Link
+                  to="/doar"
+                  className="mt-5 inline-flex h-11 -skew-x-12 items-center bg-sun px-5 text-sm font-extrabold text-ink"
+                >
+                  <span className="skew-x-12">Ir para a página de doação →</span>
+                </Link>
               </div>
               <div className="rounded-xl border-t-8 border-sun bg-brand p-8">
                 <span className="font-display text-2xl text-sun">02</span>
@@ -529,12 +514,12 @@ function Index() {
 
       {/* AÇÃO FIXA MOBILE */}
       <div className="fixed inset-x-0 bottom-0 z-50 flex gap-2 border-t border-white/10 bg-brand p-3 sm:hidden">
-        <a
-          href="#doar"
-            className="flex-1 -skew-x-12 bg-sun py-3 text-center text-sm font-extrabold text-ink"
+        <Link
+          to="/doar"
+          className="flex-1 -skew-x-12 bg-sun py-3 text-center text-sm font-extrabold text-ink"
         >
           <span className="inline-block skew-x-12">Doar</span>
-        </a>
+        </Link>
         <a
           href={WHATSAPP}
           target="_blank"
