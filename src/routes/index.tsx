@@ -37,7 +37,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const PIX_KEY = "41995756812";
 const INSTAGRAM = "https://www.instagram.com/acao_entre_amigos_21/";
 const WHATSAPP = "https://wa.me/5541995756812?text=Quero%20fazer%20uma%20doa%C3%A7%C3%A3o";
 
