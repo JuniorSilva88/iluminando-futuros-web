@@ -1,5 +1,9 @@
 # Roadmap
 
+- [ ] Aplicar Minimalismo de ONG ao site, doação, galeria e login
+- [ ] Ampliar painel protegido com campanhas e patrocinadores (CRUD + logotipos)
+- [ ] Validar visual e gerenciamento de conteúdo em celular e desktop
+
 - [x] Painel admin (login + envio de fotos) e galeria atualizando em tempo real
 - [x] Carrossel "Imagens de edições anteriores" revisado: rolagem suave, sem overflow, cards responsivos, setas do teclado e controles acessíveis
 - [x] Teste ponta a ponta do envio/remoção em /admin (desktop e celular), erros e carregamento
