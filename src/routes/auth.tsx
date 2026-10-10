@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -82,11 +83,11 @@ function PaginaAuth() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-cream px-5 py-16 text-ink">
       <div className="w-full max-w-md">
-        <Link to="/" className="text-sm font-bold uppercase tracking-widest text-accent-warm">
+        <Link to="/" className="text-sm font-bold  tracking-widest text-accent-warm">
           ← Voltar ao site
         </Link>
-        <h1 className="mt-4 font-display text-4xl uppercase leading-[0.9]">
-          Painel da <span className="inline-block -skew-x-6 text-accent-warm">equipe</span>
+        <h1 className="mt-4 font-display text-4xl  leading-tight">
+          Painel da <span className="inline-block  text-accent-warm">equipe</span>
         </h1>
         <p className="mt-3 text-sm text-ink/70">
           Acesso restrito para publicar fotos das edições na galeria do site.
@@ -104,7 +105,7 @@ function PaginaAuth() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="h-12 w-full rounded-md border-2 border-ink/20 bg-white px-4 text-ink outline-none focus-visible:border-accent-warm"
+              className="h-12 w-full rounded-md border border-ink/20 bg-card px-4 text-ink outline-none focus-visible:border-accent-warm"
             />
           </div>
           <div>
@@ -119,7 +120,7 @@ function PaginaAuth() {
               minLength={6}
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
-              className="h-12 w-full rounded-md border-2 border-ink/20 bg-white px-4 text-ink outline-none focus-visible:border-accent-warm"
+              className="h-12 w-full rounded-md border border-ink/20 bg-card px-4 text-ink outline-none focus-visible:border-accent-warm"
             />
           </div>
 
@@ -134,30 +135,30 @@ function PaginaAuth() {
             </p>
           )}
 
-          <button
+          <Button variant="neutral"
             type="submit"
             disabled={carregando}
-            className="h-12 w-full rounded-md bg-sun text-sm font-extrabold uppercase tracking-wide text-ink disabled:opacity-60"
+            className="h-12 w-full rounded-md bg-foreground text-sm font-extrabold  tracking-wide text-background disabled:opacity-60"
           >
             {carregando ? "Aguarde..." : modo === "entrar" ? "Entrar" : "Criar conta"}
-          </button>
+          </Button>
         </form>
 
-        <button
+        <Button variant="outline"
           type="button"
           onClick={entrarComGoogle}
-          className="mt-3 h-12 w-full rounded-md border-2 border-ink/20 text-sm font-extrabold uppercase tracking-wide text-ink hover:border-accent-warm hover:text-accent-warm"
+          className="mt-3 h-12 w-full rounded-md border border-ink/20 text-sm font-extrabold  tracking-wide text-ink hover:border-accent-warm hover:text-accent-warm"
         >
           Entrar com Google
-        </button>
+        </Button>
 
-        <button
+        <Button variant="link"
           type="button"
           onClick={() => setModo(modo === "entrar" ? "criar" : "entrar")}
           className="mt-6 w-full text-sm text-ink/70 underline"
         >
           {modo === "entrar" ? "Ainda não tem conta? Criar conta" : "Já tem conta? Entrar"}
-        </button>
+        </Button>
       </div>
     </main>
   );

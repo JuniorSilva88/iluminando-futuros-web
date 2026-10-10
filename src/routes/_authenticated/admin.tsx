@@ -2,6 +2,8 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { AdminConteudo } from "@/components/AdminConteudo";
 import { fotosGaleriaQuery, type FotoGaleria } from "@/lib/galeria";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -80,7 +82,10 @@ function PaginaAdmin() {
           caminho,
           alt: alt.trim() || `Registro da Ação Entre Amigos ${edicao}`,
         });
-        if (erroInsert) throw erroInsert;
+        if (erroInsert) {
+          await supabase.storage.from("galeria").remove([caminho]);
+          throw erroInsert;
+        }
       }
     },
     onSuccess: () => {
@@ -134,9 +139,10 @@ function PaginaAdmin() {
   });
 
   const sair = async () => {
-    await supabase.auth.signOut();
+    await queryClient.cancelQueries();
     queryClient.clear();
-    navigate({ to: "/auth" });
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
   };
 
   if (admin.isLoading) {
@@ -147,14 +153,14 @@ function PaginaAdmin() {
     return (
       <main className="grid min-h-screen place-items-center bg-cream px-5 text-ink">
         <div className="max-w-md text-center">
-          <h1 className="font-display text-3xl uppercase">Acesso restrito</h1>
+          <h1 className="font-display text-3xl ">Acesso restrito</h1>
           <p className="mt-3 text-sm text-ink/70">
             Sua conta está autenticada, mas ainda não tem permissão de administrador da galeria.
             Peça para a organização liberar seu acesso.
           </p>
-          <button onClick={sair} className="mt-6 h-11 rounded-md bg-sun px-6 text-sm font-extrabold uppercase text-ink">
+          <Button variant="neutral" onClick={sair} className="mt-6 h-11 rounded-md bg-foreground px-6 text-sm font-extrabold  text-background">
             Sair
-          </button>
+          </Button>
         </div>
       </main>
     );
@@ -165,29 +171,29 @@ function PaginaAdmin() {
       <div className="mx-auto max-w-4xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <Link to="/" className="text-sm font-bold uppercase tracking-widest text-accent-warm">
+            <Link to="/" className="text-sm font-bold  tracking-widest text-accent-warm">
               ← Ver o site
             </Link>
-            <h1 className="mt-2 font-display text-4xl uppercase leading-[0.9]">
-              Painel da <span className="inline-block -skew-x-6 text-accent-warm">galeria</span>
+            <h1 className="mt-2 font-display text-4xl  leading-tight">
+              Painel de conteúdo
             </h1>
           </div>
-          <button
+          <Button variant="outline"
             onClick={sair}
-            className="h-11 rounded-md border-2 border-ink/20 px-5 text-sm font-extrabold uppercase hover:border-accent-warm hover:text-accent-warm"
+            className="h-11 rounded-md border border-ink/20 px-5 text-sm font-extrabold  hover:border-accent-warm hover:text-accent-warm"
           >
             Sair
-          </button>
+          </Button>
         </div>
 
         <form
-          className="mt-8 space-y-4 rounded-xl bg-white p-6 shadow-sm"
+          className="mt-8 space-y-4 rounded-lg bg-card p-6 "
           onSubmit={(e) => {
             e.preventDefault();
             if (arquivos.length > 0) enviar.mutate();
           }}
         >
-          <h2 className="font-display text-2xl uppercase">Enviar fotos</h2>
+          <h2 className="font-display text-2xl ">Enviar fotos</h2>
 
           <div>
             <label htmlFor="edicao" className="mb-1 block text-sm font-bold">
@@ -195,9 +201,10 @@ function PaginaAdmin() {
             </label>
             <select
               id="edicao"
+              disabled={enviar.isPending}
               value={edicao}
               onChange={(e) => setEdicao(e.target.value)}
-              className="h-12 w-full rounded-md border-2 border-ink/20 bg-white px-3"
+              className="h-12 w-full rounded-md border border-ink/20 bg-card px-3"
             >
               <option value="2025">Ação 2025</option>
               <option value="2024">Ação 2024</option>
@@ -211,10 +218,11 @@ function PaginaAdmin() {
             <input
               id="alt"
               type="text"
+              disabled={enviar.isPending}
               value={alt}
               onChange={(e) => setAlt(e.target.value)}
               placeholder={`Registro da Ação Entre Amigos ${edicao}`}
-              className="h-12 w-full rounded-md border-2 border-ink/20 bg-white px-4"
+              className="h-12 w-full rounded-md border border-ink/20 bg-card px-4"
             />
           </div>
 
@@ -227,8 +235,9 @@ function PaginaAdmin() {
               type="file"
               accept="image/*"
               multiple
+              disabled={enviar.isPending}
               onChange={(e) => setArquivos(Array.from(e.target.files ?? []))}
-              className="w-full rounded-md border-2 border-dashed border-ink/20 bg-white p-3 text-sm"
+              className="w-full rounded-md border border-dashed border-ink/20 bg-card p-3 text-sm"
             />
             {arquivos.length > 0 && (
               <p className="mt-2 text-sm text-ink/70">{arquivos.length} foto(s) selecionada(s)</p>
@@ -246,41 +255,42 @@ function PaginaAdmin() {
             </p>
           )}
 
-          <button
+          <Button variant="neutral"
             type="submit"
             disabled={enviar.isPending || arquivos.length === 0}
-            className="h-12 w-full rounded-md bg-sun text-sm font-extrabold uppercase tracking-wide text-ink disabled:opacity-60 sm:w-auto sm:px-8"
+            className="h-12 w-full rounded-md bg-foreground text-sm font-extrabold  tracking-wide text-background disabled:opacity-60 sm:w-auto sm:px-8"
           >
             {enviar.isPending ? "Enviando..." : "Publicar na galeria"}
-          </button>
+          </Button>
         </form>
 
         <section className="mt-10">
-          <h2 className="font-display text-2xl uppercase">Fotos publicadas</h2>
+          <h2 className="font-display text-2xl ">Fotos publicadas</h2>
           {fotos.isLoading && <p className="mt-3 text-sm text-ink/70">Carregando fotos...</p>}
           {fotos.data && fotos.data.length === 0 && (
             <p className="mt-3 text-sm text-ink/70">Nenhuma foto enviada pelo painel ainda.</p>
           )}
           <ul className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {(fotos.data ?? []).map((f) => (
-              <li key={f.id} className="overflow-hidden rounded-lg bg-white shadow-sm">
+              <li key={f.id} className="overflow-hidden rounded-lg bg-card ">
                 <img src={f.url} alt={f.alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
                 <div className="flex items-center justify-between gap-2 p-2">
-                  <span className="text-xs font-bold uppercase text-ink/60">Ação {f.edicao}</span>
-                  <button
+                  <span className="text-xs font-bold  text-ink/60">Ação {f.edicao}</span>
+                  <Button variant="ghost"
                     type="button"
                     disabled={remover.isPending}
                     onClick={() => remover.mutate({ id: f.id, caminho: f.caminho })}
-                    className="min-h-11 text-xs font-bold uppercase text-accent-warm underline disabled:opacity-50"
+                    className="min-h-11 text-xs font-bold  text-accent-warm underline disabled:opacity-50"
                     aria-label={`Remover foto: ${f.alt}`}
                   >
                     {remover.isPending ? "Removendo..." : "Remover"}
-                  </button>
+                  </Button>
                 </div>
               </li>
             ))}
           </ul>
         </section>
+        <AdminConteudo />
       </div>
     </main>
   );

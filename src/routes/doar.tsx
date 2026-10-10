@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { QRCodeSVG } from "qrcode.react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { z } from "zod";
@@ -112,9 +114,9 @@ function DoarPage() {
   return (
     <div className="min-h-screen bg-cream text-ink font-body">
       <Toaster />
-      <header className="bg-brand text-primary-foreground">
+      <header className="bg-muted text-foreground">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-          <Link to="/" className="font-display text-xl uppercase tracking-wide">
+          <Link to="/" className="font-display text-xl  tracking-wide">
             Ação Entre Amigos
           </Link>
           <Link to="/" className="text-sm font-bold underline-offset-4 hover:underline">
@@ -124,8 +126,8 @@ function DoarPage() {
       </header>
 
       <main className="mx-auto max-w-5xl px-5 py-12 sm:py-16">
-        <p className="text-xs font-bold uppercase tracking-[0.25em] text-accent-warm">Doe agora</p>
-        <h1 className="mt-2 font-display text-5xl uppercase leading-[0.9] text-brand sm:text-6xl">
+        <p className="text-xs font-bold  tracking-[0.25em] text-accent-warm">Doe agora</p>
+        <h1 className="mt-2 font-display text-5xl  leading-tight text-brand sm:text-6xl">
           Faça sua doação
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
@@ -134,34 +136,36 @@ function DoarPage() {
         </p>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-2">
-          <form onSubmit={enviar} noValidate className="rounded-xl border-t-8 border-sun bg-card p-6 shadow-sm sm:p-8">
+          <form onSubmit={enviar} noValidate className="rounded-lg border border-border bg-card p-6  sm:p-8">
             <fieldset>
-              <legend className="font-display text-2xl uppercase text-brand">1. Escolha o valor</legend>
+              <legend className="font-display text-2xl  text-brand">1. Escolha o valor</legend>
               <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {VALORES.map((v) => (
-                  <button
+                  <Button
+                    variant="outline"
                     key={v}
                     type="button"
                     aria-pressed={valorSel === v}
                     onClick={() => setValorSel(v)}
-                    className={`h-12 rounded-md border-2 font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                      valorSel === v ? "border-brand bg-brand text-primary-foreground" : "border-border hover:border-brand"
+                    className={`h-12 rounded-md border font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                      valorSel === v ? "border-brand bg-muted text-foreground" : "border-border hover:border-brand"
                     }`}
                   >
                     {brl(v)}
-                  </button>
+                  </Button>
                 ))}
               </div>
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 aria-pressed={valorSel === "outro"}
                 onClick={() => setValorSel("outro")}
-                className={`mt-3 h-12 w-full rounded-md border-2 font-bold ${
-                  valorSel === "outro" ? "border-brand bg-brand text-primary-foreground" : "border-border hover:border-brand"
+                className={`mt-3 h-12 w-full rounded-md border font-bold ${
+                  valorSel === "outro" ? "border-brand bg-muted text-foreground" : "border-border hover:border-brand"
                 }`}
               >
                 Outro valor
-              </button>
+              </Button>
               {valorSel === "outro" && (
                 <div className="mt-3">
                   <label htmlFor="outro" className="text-sm font-bold">Valor (R$)</label>
@@ -179,7 +183,7 @@ function DoarPage() {
             </fieldset>
 
             <fieldset className="mt-8">
-              <legend className="font-display text-2xl uppercase text-brand">2. Seus dados</legend>
+              <legend className="font-display text-2xl  text-brand">2. Seus dados</legend>
               <label htmlFor="nome" className="mt-4 block text-sm font-bold">Nome *</label>
               <input
                 id="nome"
@@ -203,35 +207,30 @@ function DoarPage() {
               {erros.email && <p role="alert" className="mt-1 text-sm text-destructive">{erros.email}</p>}
             </fieldset>
 
-            <button
+            <Button
               type="submit"
-              className="mt-8 inline-flex h-14 w-full -skew-x-12 items-center justify-center bg-sun text-base font-extrabold text-ink"
+              className="mt-8 inline-flex h-14 w-full  items-center justify-center bg-sun text-base font-extrabold text-ink"
             >
-              <span className="skew-x-12">Gerar Pix de {brl(valor)}</span>
-            </button>
+              <span className="">Gerar Pix de {brl(valor)}</span>
+            </Button>
           </form>
 
           <section
             id="pagamento"
             tabIndex={-1}
             aria-live="polite"
-            className="rounded-xl border-t-8 border-sky-joy bg-brand p-6 text-primary-foreground outline-none sm:p-8"
+            className="rounded-lg border border-border bg-muted p-6 text-foreground outline-none sm:p-8"
           >
-            <h2 className="font-display text-2xl uppercase text-sun">3. Pague com Pix</h2>
+            <h2 className="font-display text-2xl  text-foreground">3. Pague com Pix</h2>
             {gerado ? (
               <>
                 <p className="mt-2 opacity-85">
                   Valor: <strong>{brl(gerado.valor)}</strong>. Escaneie o QR Code ou use o Pix copia e cola no app do seu banco.
                 </p>
                 <div className="mt-5 flex justify-center rounded-lg bg-card p-4">
-                  <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(pixCode)}`}
-                    alt={`QR Code Pix para doação de ${brl(gerado.valor)}`}
-                    width={240}
-                    height={240}
-                  />
+                  <QRCodeSVG value={pixCode} size={240} title={`QR Code Pix para doação de ${brl(gerado.valor)}`} className="max-w-full" />
                 </div>
-                <label htmlFor="copiaecola" className="mt-5 block text-xs uppercase tracking-widest opacity-70">
+                <label htmlFor="copiaecola" className="mt-5 block text-xs  tracking-widest opacity-70">
                   Pix copia e cola
                 </label>
                 <textarea
@@ -239,23 +238,23 @@ function DoarPage() {
                   readOnly
                   value={pixCode}
                   rows={3}
-                  className="mt-1 w-full break-all rounded-md bg-ink p-3 text-xs text-primary-foreground"
+                  className="mt-1 w-full break-all rounded-md bg-muted p-3 text-xs text-foreground"
                 />
                 <div className="mt-3 flex flex-wrap gap-3">
-                  <button
+                  <Button
                     type="button"
                     onClick={() => copiar(pixCode, "Código Pix copiado!")}
-                    className="inline-flex h-11 -skew-x-12 items-center bg-sun px-5 text-sm font-extrabold text-ink"
+                    className="inline-flex h-11  items-center bg-sun px-5 text-sm font-extrabold text-ink"
                   >
-                    <span className="skew-x-12">Copiar código Pix</span>
-                  </button>
+                    <span className="">Copiar código Pix</span>
+                  </Button>
                   <a
                     href={whatsapp}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex h-11 -skew-x-12 items-center border-2 border-primary-foreground/40 px-5 text-sm font-bold"
+                    className="inline-flex h-11 rounded-lg bg-primary text-primary-foreground items-center border border-border px-5 text-sm font-bold"
                   >
-                    <span className="skew-x-12">Enviar comprovante</span>
+                    <span className="">Enviar comprovante</span>
                   </a>
                 </div>
               </>
@@ -263,17 +262,17 @@ function DoarPage() {
               <p className="mt-2 opacity-85">Preencha o formulário para gerar o QR Code e o Pix copia e cola com o valor escolhido.</p>
             )}
 
-            <div className="mt-8 rounded-lg bg-ink p-4">
-              <p className="text-xs uppercase tracking-widest opacity-60">Chave Pix</p>
-              <p className="font-display text-2xl tracking-wide text-sun">{PIX_KEY}</p>
+            <div className="mt-8 rounded-lg bg-muted p-4">
+              <p className="text-xs  tracking-widest opacity-60">Chave Pix</p>
+              <p className="font-display text-2xl tracking-wide text-foreground">{PIX_KEY}</p>
               <p className="mt-1 text-sm opacity-70">{PIX_NOME}</p>
-              <button
+              <Button
                 type="button"
                 onClick={() => copiar(PIX_KEY, "Chave Pix copiada!")}
-                className="mt-4 inline-flex h-11 -skew-x-12 items-center bg-sun px-5 text-sm font-extrabold text-ink"
+                className="mt-4 inline-flex h-11  items-center bg-sun px-5 text-sm font-extrabold text-ink"
               >
-                <span className="skew-x-12">Copiar chave Pix</span>
-              </button>
+                <span className="">Copiar chave Pix</span>
+              </Button>
             </div>
           </section>
         </div>
