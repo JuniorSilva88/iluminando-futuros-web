@@ -144,7 +144,7 @@ function PaginaAuth() {
           </Button>
         </form>
 
-        <Button variant="neutral"
+        <Button variant="outline"
           type="button"
           onClick={entrarComGoogle}
           className="mt-3 h-12 w-full rounded-md border border-ink/20 text-sm font-extrabold  tracking-wide text-ink hover:border-accent-warm hover:text-accent-warm"
@@ -152,7 +152,7 @@ function PaginaAuth() {
           Entrar com Google
         </Button>
 
-        <Button variant="neutral"
+        <Button variant="link"
           type="button"
           onClick={() => setModo(modo === "entrar" ? "criar" : "entrar")}
           className="mt-6 w-full text-sm text-ink/70 underline"

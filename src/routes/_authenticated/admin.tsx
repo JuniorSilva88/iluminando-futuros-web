@@ -175,10 +175,10 @@ function PaginaAdmin() {
               ← Ver o site
             </Link>
             <h1 className="mt-2 font-display text-4xl  leading-tight">
-              Painel da <span className="inline-block  text-accent-warm">galeria</span>
+              Painel de conteúdo
             </h1>
           </div>
-          <Button variant="neutral"
+          <Button variant="outline"
             onClick={sair}
             className="h-11 rounded-md border border-ink/20 px-5 text-sm font-extrabold  hover:border-accent-warm hover:text-accent-warm"
           >
@@ -276,7 +276,7 @@ function PaginaAdmin() {
                 <img src={f.url} alt={f.alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
                 <div className="flex items-center justify-between gap-2 p-2">
                   <span className="text-xs font-bold  text-ink/60">Ação {f.edicao}</span>
-                  <Button variant="neutral"
+                  <Button variant="ghost"
                     type="button"
                     disabled={remover.isPending}
                     onClick={() => remover.mutate({ id: f.id, caminho: f.caminho })}

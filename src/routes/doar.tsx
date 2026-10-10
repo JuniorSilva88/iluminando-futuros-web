@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { QRCodeSVG } from "qrcode.react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { z } from "zod";
@@ -227,12 +228,7 @@ function DoarPage() {
                   Valor: <strong>{brl(gerado.valor)}</strong>. Escaneie o QR Code ou use o Pix copia e cola no app do seu banco.
                 </p>
                 <div className="mt-5 flex justify-center rounded-lg bg-card p-4">
-                  <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(pixCode)}`}
-                    alt={`QR Code Pix para doação de ${brl(gerado.valor)}`}
-                    width={240}
-                    height={240}
-                  />
+                  <QRCodeSVG value={pixCode} size={240} title={`QR Code Pix para doação de ${brl(gerado.valor)}`} className="max-w-full" />
                 </div>
                 <label htmlFor="copiaecola" className="mt-5 block text-xs  tracking-widest opacity-70">
                   Pix copia e cola
