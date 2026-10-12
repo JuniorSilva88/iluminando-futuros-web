@@ -13,3 +13,4 @@
 - Content images use the existing private gallery bucket and signed URLs with unique upload paths; bundled official assets are resolved by stable identifiers to preserve existing media.
 - Public content subscribes to Realtime and invalidates query caches after mutations to reflect edits without page reloads.
 - Donation QR codes are generated locally with a QR library so payment codes render without external image-service availability.
+- Homepage presentation uses shared container and section-label styles; gallery interactions and content queries stay independent so visual changes preserve live updates.
