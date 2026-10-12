@@ -38,8 +38,13 @@ function PaginaAdmin() {
     queryFn: async () => {
       const { data: sess } = await supabase.auth.getUser();
       if (!sess.user) return false;
-      // Confirma a permissão; a primeira conta do projeto se torna responsável.
-      const { data } = await supabase.rpc("reivindicar_admin");
+      // Apenas contas autorizadas explicitamente na tabela de papéis são administradoras.
+      const { data } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", sess.user.id)
+        .eq("role", "admin")
+        .maybeSingle();
       return Boolean(data);
     },
   });
