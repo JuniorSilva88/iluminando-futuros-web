@@ -204,13 +204,13 @@ export function GaleriaEdicoes() {
 
   return (
     <section id="edicoes" className="overflow-x-clip bg-cream text-ink">
-      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+      <div className="site-container site-section">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="mb-3 text-xs font-bold  tracking-[0.25em] text-accent-warm">
+            <p className="section-label">
               Memórias
             </p>
-            <h2 className="font-display text-3xl leading-tight sm:text-4xl">
+            <h2 className="section-title">
               Imagens de <span className="inline-block  text-accent-warm">edições anteriores</span>
             </h2>
           </div>
@@ -273,7 +273,7 @@ export function GaleriaEdicoes() {
                 <Button variant="ghost"
                   type="button"
                   onClick={() => abrirModal(i)}
-                  className="group relative block w-full overflow-hidden rounded-lg bg-background text-left outline-1 -outline-offset-1 outline-border focus-visible:outline-2 focus-visible:outline-accent-warm"
+                  className="group relative block h-auto w-full overflow-hidden rounded-lg bg-background p-0 text-left outline-1 -outline-offset-1 outline-border focus-visible:outline-2 focus-visible:outline-accent-warm"
                   aria-label={`Ampliar foto ${i + 1} de ${edicao.fotos.length}: ${f.alt}`}
                 >
                   <img

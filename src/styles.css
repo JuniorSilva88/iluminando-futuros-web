@@ -117,6 +117,27 @@
  button, a, input, textarea, select { scroll-margin-top: 6rem; }
  section { scroll-margin-top: 5rem; }
 }
+@layer components {
+ .site-container { width: 100%; max-width: 1140px; margin-inline: auto; padding-inline: 1.25rem; }
+ .site-section { padding-block: 4rem; }
+ .section-label { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--muted-foreground); }
+ .section-label::before { content: ""; width: 1.5rem; height: 1px; background: currentColor; }
+ .section-title { font-size: 1.875rem; line-height: 1.25; font-weight: 600; text-wrap: balance; }
+ .site-nav-link { position: relative; padding-block: 0.5rem; color: var(--muted-foreground); transition: color 200ms; }
+ .site-nav-link::after { content: ""; position: absolute; bottom: 0; left: 0; height: 1px; width: 0; background: var(--foreground); transition: width 200ms; }
+ .site-nav-link:hover, .site-nav-link:focus-visible { color: var(--foreground); }
+ .site-nav-link:hover::after, .site-nav-link:focus-visible::after { width: 100%; }
+ .campaign-item { transition: transform 200ms; }
+ .campaign-item:hover { transform: translateY(-3px); }
+}
+@media (min-width: 640px) {
+ .site-container { padding-inline: 2rem; }
+ .section-title { font-size: 2.25rem; }
+}
+@media (min-width: 1024px) {
+ .site-section { padding-block: 6rem; }
+}
 @media (prefers-reduced-motion: reduce) {
+ .campaign-item:hover { transform: none; }
  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
