@@ -1,7 +1,7 @@
 # Roadmap
 
-- [ ] Adaptar a página inicial ao modelo do portfólio, preservando conteúdo e fluxos da ONG
-- [ ] Validar navegação, doação e galeria após a adaptação visual
+- [x] Adaptar a página inicial ao modelo do portfólio, preservando conteúdo e fluxos da ONG
+- [x] Validar navegação, doação e galeria após a adaptação visual
 
 - [x] Aplicar Minimalismo de ONG ao site, doação, galeria e login
 - [x] Ampliar painel protegido com campanhas e patrocinadores (CRUD + logotipos)
