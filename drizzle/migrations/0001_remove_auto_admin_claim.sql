@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS public.reivindicar_admin();
