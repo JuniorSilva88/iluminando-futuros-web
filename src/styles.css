@@ -20,6 +20,8 @@
 
 @theme inline {
   --color-brand: var(--brand);
+  --color-deep: var(--deep);
+  --color-deep-foreground: var(--deep-foreground);
   --color-accent-warm: var(--accent-warm);
   --color-cream: var(--cream);
   --color-ink: var(--ink);
@@ -72,23 +74,25 @@
 
 :root, .dark {
   --radius: 0.5rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.279 0.041 260.031);
+  --background: oklch(0.975 0.008 95);
+  --foreground: oklch(0.3 0.06 160);
+  --deep: oklch(0.27 0.05 165);
+  --deep-foreground: oklch(0.975 0.008 95);
   --card: var(--background);
   --card-foreground: var(--foreground);
   --popover: var(--background);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.723 0.219 149.579);
+  --primary: oklch(0.84 0.16 85);
   --primary-foreground: var(--foreground);
-  --secondary: oklch(0.968 0.007 247.896);
+  --secondary: oklch(0.94 0.01 140);
   --secondary-foreground: var(--foreground);
   --muted: var(--secondary);
-  --muted-foreground: oklch(0.446 0.043 257.281);
+  --muted-foreground: oklch(0.42 0.03 160);
   --accent: var(--secondary);
   --accent-foreground: var(--foreground);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: var(--background);
-  --border: oklch(0.929 0.013 255.508);
+  --border: oklch(0.88 0.02 140);
   --input: var(--border);
   --ring: var(--foreground);
   --brand: var(--foreground);
@@ -113,7 +117,7 @@
 
 @layer base {
  body { font-family: var(--font-body); }
- h1, h2, h3 { font-weight: 600; letter-spacing: 0; }
+ h1, h2, h3 { font-weight: 800; letter-spacing: 0; }
  button, a, input, textarea, select { scroll-margin-top: 6rem; }
  section { scroll-margin-top: 5rem; }
 }
