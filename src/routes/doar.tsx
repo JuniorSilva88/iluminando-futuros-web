@@ -115,7 +115,7 @@ function DoarPage() {
     <div className="min-h-screen bg-cream text-ink font-body">
       <Toaster />
       <header className="bg-muted text-foreground">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
           <Link to="/" className="font-display text-xl  tracking-wide">
             Ação Entre Amigos
           </Link>
@@ -125,7 +125,7 @@ function DoarPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-5 py-12 sm:py-16">
+      <main className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
         <p className="text-xs font-bold  tracking-[0.25em] text-accent-warm">Doe agora</p>
         <h1 className="mt-2 font-display text-5xl  leading-tight text-brand sm:text-6xl">
           Faça sua doação
